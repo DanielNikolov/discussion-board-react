@@ -10,12 +10,18 @@ const Blog = (props) => {
     useEffect(() => {
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then(response => {
-                setPosts(response.data);
+                const updatedPosts = response.data.slice(0, 4).map(post => {
+                    return {
+                        ...post,
+                        author: 'Max'
+                    }
+                })
+                setPosts(updatedPosts);
             })
     })
 
     const topPosts = posts.map(post => {
-        return <Post key={post.id} title={post.title} />
+        return <Post key={post.id} title={post.title} author={post.author} />
     })
     return (
         <div>
